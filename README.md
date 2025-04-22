@@ -103,3 +103,13 @@ Si colocamos unos en los mismos 5 bits de host:
 
 Dirección de broadcast resultante: 192.168.0.31
 Esta es la última dirección de la subred, utilizada para enviar mensajes a todos los dispositivos dentro de ella. Tampoco se asigna a un host.
+
+#### Primera Subred:
+
+- Dirección de red: `192.168.0.0`
+- Primer host válido: `192.168.0.1`
+- Último host válido: `192.168.0.30`
+- Dirección de broadcast: `192.168.0.31`
+
+IPs utilizables:  
+`192.168.0.1` → `192.168.0.30`
