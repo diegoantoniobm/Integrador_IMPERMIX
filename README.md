@@ -85,9 +85,10 @@ Dirección de Red
 
 En una máscara /27, los últimos 5 bits corresponden a la parte de host. Si colocamos todos estos bits en 0, obtenemos:
 
-Bits (posición) |  |  |  | /27 |  |  |  | 
-Valor del bit | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
-Bits del host | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0
+| Posición de bits  |     |     |     | /27 |    |    |    |    |
+|-------------------|-----|-----|-----|-----|----|----|----|----|
+| Valor del bit     | 128 |  64 |  32 |  16 |  8 |  4 |  2 |  1 |
+| Bits utilizados   |  0  |  0  |  0  |  0  |  0 |  0 |  0 |  0 |
 
 Dirección de red resultante: 192.168.0.0
 Esta dirección identifica a la subred y no debe asignarse a ningún host.
@@ -95,9 +96,10 @@ Esta dirección identifica a la subred y no debe asignarse a ningún host.
 Dirección de Broadcast
 Si colocamos unos en los mismos 5 bits de host:
 
-Bits (posición) |  |  |  | /27 |  |  |  | 
-Valor del bit | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
-Bits del host | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 1
+| Posición de bits  |     |     |     | /27 |    |    |    |    |
+|-------------------|-----|-----|-----|-----|----|----|----|----|
+| Valor del bit     | 128 |  64 |  32 |  16 |  8 |  4 |  2 |  1 |
+| Bits utilizados   |  0  |  0  |  0  |  1  |  1 |  1 |  1 |  1 |
 
 Dirección de broadcast resultante: 192.168.0.31
 Esta es la última dirección de la subred, utilizada para enviar mensajes a todos los dispositivos dentro de ella. Tampoco se asigna a un host.
