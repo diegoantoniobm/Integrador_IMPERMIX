@@ -23,15 +23,81 @@ La implementación del proyecto se llevará a cabo en varias fases:
 y se diseñará la estructura de la base de datos. Se identificarán los datos
 necesarios para cada aspecto del negocio y se establecerán las relaciones
 entre ellos.
+
 **• Fase 2: Desarrollo:** Se procederá con la programación del software, utilizando
 tecnologías adecuadas para garantizar la eficiencia y seguridad del sistema.
 Se desarrollarán funcionalidades específicas para el monitoreo de inventarios,
 costos y precios de venta, así como para la gestión de costos de
 mantenimiento y salarios.
+
 **• Fase 3: Pruebas:** Se realizarán pruebas exhaustivas del software para detectar
 y corregir errores. Se verificarán todas las funcionalidades y se asegurará que
 el sistema cumpla con los requisitos definidos.
+
 **• Fase 4: Implementación y Capacitación:** El software se instalará en los
 dispositivos del negocio y se capacitará al personal para su uso. Se garantizará
 que solo cuatro usuarios tengan privilegios de administrador para modificar
 precios, mientras que los demás solo podrán subir cotizaciones.
+
+## Desarrollo:
+
+![Topología de red](imagen.png)
+
+Segmentación de Red con VLSM (IPv4)
+Vamos a partir de la red 192.168.0.0/24, que dispone de 256 direcciones IP posibles. Si necesitamos crear 5 grupos de trabajo sin desperdiciar direcciones, lo ideal es usar VLSM (Máscara de Subred de Longitud Variable).
+
+🔢 Cálculo de direcciones necesarias por subred
+Para determinar cuántos bits debemos reservar para los hosts, usamos esta lógica:
+
+Buscamos la menor potencia de 2 que cubra los hosts deseados.
+
+`2^n ≥ número de hosts requeridos`
+
+Por ejemplo:
+
+`2² = 4 es muy justo`
+
+`2³ = 8 es suficiente`
+
+Esto indica que necesitaremos 3 bits para los hosts, lo que nos deja con 8 IPs por subred, de las cuales 6 son útiles (una es la red y otra el broadcast).
+
+### Nueva Máscara
+Como usamos 3 bits para hosts, restamos eso a los 32 bits totales:
+
+32 - 3 = 29 bits para red
+
+Pero partimos de /24, así que sumamos esos 3 a la máscara base:
+
+/27 = 255.255.255.224
+
+
+### Cálculo de direcciones de red y broadcast
+
+Cuando se divide una red en subredes más pequeñas, es fundamental identificar correctamente la dirección de red y la dirección de broadcast. Estas marcan el inicio y el final de cada subred.
+
+La dirección de red se obtiene asignando cero a todos los bits del campo de host.
+
+La dirección de broadcast se obtiene asignando uno a todos los bits del campo de host.
+
+Esto nos permite determinar el rango de direcciones disponibles para los hosts en cada subred.
+
+Dirección de Red
+
+En una máscara /27, los últimos 5 bits corresponden a la parte de host. Si colocamos todos estos bits en 0, obtenemos:
+
+Bits (posición) |  |  |  | /27 |  |  |  | 
+Valor del bit | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
+Bits del host | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0
+
+Dirección de red resultante: 192.168.0.0
+Esta dirección identifica a la subred y no debe asignarse a ningún host.
+
+Dirección de Broadcast
+Si colocamos unos en los mismos 5 bits de host:
+
+Bits (posición) |  |  |  | /27 |  |  |  | 
+Valor del bit | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
+Bits del host | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 1
+
+Dirección de broadcast resultante: 192.168.0.31
+Esta es la última dirección de la subred, utilizada para enviar mensajes a todos los dispositivos dentro de ella. Tampoco se asigna a un host.
