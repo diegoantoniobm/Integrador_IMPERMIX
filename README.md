@@ -3,8 +3,14 @@
 ## Integrantes
 
 Daniel Aldana López 230110150
+
+
 Diego Antonio Badillo Morales 230110025
+
+
 Oswaldo Gabriel Villaverde Mendoza 230110856
+
+
 Irving Maldonado Olguin 230110716
 
 ## ¿Cuál es la problematica?
@@ -113,3 +119,181 @@ Esta es la última dirección de la subred, utilizada para enviar mensajes a tod
 
 IPs utilizables:  
 `192.168.0.1` → `192.168.0.30`
+
+
+## Configuraciones 
+
+### Segmento de red
+
+parte de la: 172.16.0.32
+
+hasta la: 172.16.0.63
+
+Las direcciones IP utilizables son desde la:
+
+172.16.0.33
+
+hasta la:
+
+172.16.0.62
+
+Dirección IPv6 global:
+
+2001:db8:1:b::/64
+
+Dirección IPV6 local:
+
+FE80::/10
+
+### Direcciones IP de dispositivos
+
+Direcciones IPV4 e IPv6  para conexión de los dispositivos a implementar:
+
+IPv4 Switch: 172.16.0.62
+
+Mascara de subred: 255.255.255.224
+
+IPv6 gloabl Switch:  2001:db8:1:b::2
+
+IPv6 local Switch: FE80::2 
+
+IP  Router: 172.16.0.61
+
+IPv6 global Router: 2001:db8:1:b::1
+
+IPv6 local: FE80::1
+
+![Ping de dispositivos](image2.png)
+
+**PC Servidor** 
+
+IPv4= 172.16.0.34
+
+mascara= 255.255.255.224
+
+Ipv6 global servidor: 2001:db8:1:b::3 
+
+**PC1 Cliente**
+
+IPv4= 172.16.0.35
+
+mascara=255.255.255.224
+
+IPv6 global Cliente PC1: 2001:db8:1:b::4
+
+**PC2 Cliente**
+
+IPv4=172.16.0.36
+
+mascara=255.255.255.224
+
+IPv6 global cliente PC2: 2001:db8:1:b::5
+
+### Topología de conexión (Redes)
+
+Esta es la topología a implementar para realizar las conexiones de red del proyecto; se usa un router, switch, un router, una laptop servidor y dos laptops clientes
+
+![Topologia del proyecto](image3.png)
+
+### Configuraciones Básicas de Switch
+
+Estas son las configuraciones necesarias para el funcionamiento del switch en la topología:
+
+"Configuración para activación de IPV6 en Switch"
+Switch>enable
+Switch#config t
+Switch(config)#sdm prefer dual-ipv4-and-ipv6 default
+Switch(config)#end
+Switch#reload
+
+----------------------------------------------------------------------------------------------
+
+Switch>enable
+Switch#configure terminal
+Switch(config)#hostname SB
+SB(config)#enable password cisco
+SB(config)#enable secret tics
+SB(config)#banner motd "Configuraciones de SB"
+SB(config)#line vty 0 15
+SB(config-line)#password telnet
+SB(config-line)#login
+SB(config-line)#exit
+SB(config)#line console 0 
+SB(config-line)#password consola
+SB(config-line)#login
+SB(config-line)#exit
+SB(config)#interface vlan 1
+SB(config-line)#ip address 172.16.0.62 255.255.255.224
+SB(config-line)#ipv6 address 2001:db8:1:b::/64 eui-64
+SB(config-line)#ipv6 address FE80::2 link-local
+SB(config-line)#no shutdown (sirve para habilitar o activar una interfaz que está administrativamente apagada por defecto)
+SB(config-line)#description "toAdmin"
+SB(config-line)#exit
+SB(config)#service password-encryption   //No escriptar 
+SB(config)#ip domain-name cisco.com (establece un nombre de dominio predeterminado)
+SB(config)#username admin password admin
+SB(config)#crypto key generate rsa (Genera un par de claves RSA necesarias para habilitar funciones de seguridad )
+"The name for the keys will be: RB.cisco.com"
+"Choose the size of the key modulus in the range of 360 to 4096 for your"
+"  General Purpose Keys. Choosing a key modulus greater than 512 may take"
+ " a few minutes."
+  
+  "How many bits in the modulus [512]:"1024
+"Generating 1024 bit RSA keys, keys will be non-exportable...[OK]"
+SB(config)#line vty 0 15
+SB(config-line)#transport input telnet ssh (El dispositivo aceptará conexiones remotas tanto por Telnet como por SSH.)
+SB(config-line)#login local
+SB(config-line)#exit
+SB(config)#
+//Poner el reload para no guardar la configuracion
+
+
+### Configuraciones Basicas de Router
+
+Estas son las configuraciones necesarias para el funcionamiento del router en la topología:
+
+"Configuración para activar IPv6 en router"
+Router>enable
+Router#config t
+Router(config)#ipv6 unicast-routing
+
+--------------------------------------------------------------------------------------------------------
+
+Router>enable
+Router#configure terminal
+Router(config)#hostname RB
+RB(config)#enable password cisco
+RB(config)#enable secret tics
+RB(config)#banner motd "Configuraciones de SB"
+RB(config)#line vty 0 4
+RB(config-line)#password telnet
+RB(config-line)#login
+RB(config-line)#exit
+RB(config)#line console 0 
+RB(config-line)#password consola
+RB(config-line)#login
+RB(config-line)#exit
+RB(config)#interface g0/1
+RB(config-line)#ip address 172.16.0.60 255.255.255.224
+RB(config-line)#ipv6 address 2001:db8:1:b::/64 eui-64
+RB(config-line)#ipv6 address FE80::1 link-local
+RB(config-line)#no shutdown (sirve para habilitar o activar una interfaz que está administrativamente apagada por defecto)
+RB(config-line)#description "toLANB"
+RB(config-line)#exit
+RB(config)#service password-encryption
+RB(config)#ip domain-name cisco.com (establece un nombre de dominio predeterminado)
+RB(config)#username admin password admin
+RB(config)#crypto key generate rsa (Genera un par de claves RSA necesarias para habilitar funciones de seguridad )
+"The name for the keys will be: RB.cisco.com"
+"Choose the size of the key modulus in the range of 360 to 4096 for your"
+"  General Purpose Keys. Choosing a key modulus greater than 512 may take"
+ " a few minutes."
+  
+  "How many bits in the modulus [512]:"1024
+"Generating 1024 bit RSA keys, keys will be non-exportable...[OK]"
+RB(config)#line vty 0 4
+RB(config-line)#transport input telnet ssh (El dispositivo aceptará conexiones remotas tanto por Telnet como por SSH.)
+RB(config-line)#login local
+RB(config-line)#exit
+RB(config)#
+	//Poner el reload para no guardar la configuracion 
