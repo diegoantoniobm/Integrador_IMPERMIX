@@ -292,3 +292,33 @@ RB(config)#line vty 0 4
 RB(config-line)#transport input telnet ssh  
 RB(config-line)#login local  
 RB(config-line)#exit  
+
+
+### Configuración para conexión PC
+
+Ingresar al panel de control:
+
+![Panel de control](image4.png)
+
+Seleccionar redes e internet:
+
+![Redes e internet](image5.png)
+
+Seguidamente en centro de redes y recursos compartidos:
+
+![Recursos Compartidos](image6.png)
+
+A continuación ingresamos a ethernet:
+
+![Ethernet](image7.png)
+
+Luego en propiedades:
+
+![Propiedades](image8.png)
+
+Seleccionamos 
+El apartado protocolo de Internet versión 4(TCP/IPv4), e ingresas la IP 172.16.0.35 y su mascara: 255.255.255.224 
+para la pc 1 y 172.16.0.36 y su mascara: 255.255.255.224 para la pc 2
+
+Seguidamente seleccionamos el apartado de protocolo de Internet versión 6(TCP(IPv6), e ingresas la IP 2001:db8:1:b::4 
+y el prefijo de 64 para la pc 1 y 2001:db8:1:b::5 y el prefijo de 64 para la pc 2
