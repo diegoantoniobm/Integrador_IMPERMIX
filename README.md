@@ -199,101 +199,96 @@ Esta es la topología a implementar para realizar las conexiones de red del proy
 
 Estas son las configuraciones necesarias para el funcionamiento del switch en la topología:
 
-"Configuración para activación de IPV6 en Switch"
-Switch>enable
-Switch#config t
-Switch(config)#sdm prefer dual-ipv4-and-ipv6 default
-Switch(config)#end
+Switch>enable  
+Switch#config t  
+Switch(config)#sdm prefer dual-ipv4-and-ipv6 default  
+Switch(config)#end  
 Switch#reload
 
-----------------------------------------------------------------------------------------------
 
-Switch>enable
-Switch#configure terminal
-Switch(config)#hostname SB
-SB(config)#enable password cisco
-SB(config)#enable secret tics
-SB(config)#banner motd "Configuraciones de SB"
-SB(config)#line vty 0 15
-SB(config-line)#password telnet
-SB(config-line)#login
-SB(config-line)#exit
-SB(config)#line console 0 
-SB(config-line)#password consola
-SB(config-line)#login
-SB(config-line)#exit
-SB(config)#interface vlan 1
-SB(config-line)#ip address 172.16.0.62 255.255.255.224
-SB(config-line)#ipv6 address 2001:db8:1:b::/64 eui-64
-SB(config-line)#ipv6 address FE80::2 link-local
-SB(config-line)#no shutdown (sirve para habilitar o activar una interfaz que está administrativamente apagada por defecto)
-SB(config-line)#description "toAdmin"
-SB(config-line)#exit
-SB(config)#service password-encryption   //No escriptar 
-SB(config)#ip domain-name cisco.com (establece un nombre de dominio predeterminado)
-SB(config)#username admin password admin
-SB(config)#crypto key generate rsa (Genera un par de claves RSA necesarias para habilitar funciones de seguridad )
-"The name for the keys will be: RB.cisco.com"
-"Choose the size of the key modulus in the range of 360 to 4096 for your"
-"  General Purpose Keys. Choosing a key modulus greater than 512 may take"
- " a few minutes."
-  
-  "How many bits in the modulus [512]:"1024
-"Generating 1024 bit RSA keys, keys will be non-exportable...[OK]"
-SB(config)#line vty 0 15
-SB(config-line)#transport input telnet ssh (El dispositivo aceptará conexiones remotas tanto por Telnet como por SSH.)
-SB(config-line)#login local
-SB(config-line)#exit
-SB(config)#
-//Poner el reload para no guardar la configuracion
+Switch>enable  
+Switch#configure terminal  
+Switch(config)#hostname SB  
+SB(config)#enable password cisco  
+SB(config)#enable secret tics  
+SB(config)#banner motd "Configuraciones de SB"  
+
+SB(config)#line vty 0 15  
+SB(config-line)#password telnet  
+SB(config-line)#login  
+SB(config-line)#exit  
+
+SB(config)#line console 0  
+SB(config-line)#password consola  
+SB(config-line)#login  
+SB(config-line)#exit  
+
+
+SB(config)#service password-encryption      // No escriptar  
+SB(config)#ip domain-name cisco.com         // Establece un nombre de dominio  
+SB(config)#username admin password admin  
+SB(config)#crypto key generate rsa          // Genera claves RSA necesarias para SSH
+
+The name for the keys will be: RB.cisco.com  
+Choose the size of the key modulus in the range of 360 to 4096 for your  
+  General Purpose Keys. Choosing a key modulus greater than 512 may take a few minutes.  
+
+How many bits in the modulus [512]: 1024  
+Generating 1024 bit RSA keys, keys will be non-exportable... [OK]  
+
+SB(config)#line vty 0 15  
+SB(config-line)#transport input telnet ssh     // Acepta conexiones Telnet y SSH  
+SB(config-line)#login local  
+SB(config-line)#exit  
+
+SB#reload
+
 
 
 ### Configuraciones Basicas de Router
 
 Estas son las configuraciones necesarias para el funcionamiento del router en la topología:
 
-"Configuración para activar IPv6 en router"
-Router>enable
-Router#config t
-Router(config)#ipv6 unicast-routing
+Switch>enable  
+Switch#configure terminal  
+Switch(config)#hostname SB  
+SB(config)#enable password cisco  
+SB(config)#enable secret tics  
+SB(config)#banner motd "Configuraciones de SB"  
 
---------------------------------------------------------------------------------------------------------
+SB(config)#line vty 0 15  
+SB(config-line)#password telnet  
+SB(config-line)#login  
+SB(config-line)#exit  
 
-Router>enable
-Router#configure terminal
-Router(config)#hostname RB
-RB(config)#enable password cisco
-RB(config)#enable secret tics
-RB(config)#banner motd "Configuraciones de SB"
-RB(config)#line vty 0 4
-RB(config-line)#password telnet
-RB(config-line)#login
-RB(config-line)#exit
-RB(config)#line console 0 
-RB(config-line)#password consola
-RB(config-line)#login
-RB(config-line)#exit
-RB(config)#interface g0/1
-RB(config-line)#ip address 172.16.0.60 255.255.255.224
-RB(config-line)#ipv6 address 2001:db8:1:b::/64 eui-64
-RB(config-line)#ipv6 address FE80::1 link-local
-RB(config-line)#no shutdown (sirve para habilitar o activar una interfaz que está administrativamente apagada por defecto)
-RB(config-line)#description "toLANB"
-RB(config-line)#exit
-RB(config)#service password-encryption
-RB(config)#ip domain-name cisco.com (establece un nombre de dominio predeterminado)
-RB(config)#username admin password admin
-RB(config)#crypto key generate rsa (Genera un par de claves RSA necesarias para habilitar funciones de seguridad )
-"The name for the keys will be: RB.cisco.com"
-"Choose the size of the key modulus in the range of 360 to 4096 for your"
-"  General Purpose Keys. Choosing a key modulus greater than 512 may take"
- " a few minutes."
-  
-  "How many bits in the modulus [512]:"1024
-"Generating 1024 bit RSA keys, keys will be non-exportable...[OK]"
-RB(config)#line vty 0 4
-RB(config-line)#transport input telnet ssh (El dispositivo aceptará conexiones remotas tanto por Telnet como por SSH.)
-RB(config-line)#login local
-RB(config-line)#exit
-RB(config)#
-	//Poner el reload para no guardar la configuracion 
+SB(config)#line console 0  
+SB(config-line)#password consola  
+SB(config-line)#login  
+SB(config-line)#exit  
+
+SB(config)#interface vlan 1  
+SB(config-line)#ip address 172.16.0.62 255.255.255.224  
+SB(config-line)#ipv6 address 2001:db8:1:b::/64 eui-64  
+SB(config-line)#ipv6 address FE80::2 link-local  
+SB(config-line)#no shutdown   // Sirve para habilitar o activar una interfaz que está administrativamente apagada por defecto  
+SB(config-line)#description "toAdmin"  
+SB(config-line)#exit  
+
+SB(config)#service password-encryption  
+// No escribir  
+SB(config)#ip domain-name cisco.com   // Establece un nombre de dominio predeterminado  
+SB(config)#username admin password admin  
+SB(config)#crypto key generate rsa    // Genera un par de claves RSA necesarias para habilitar funciones de seguridad  
+
+The name for the keys will be: RB.cisco.com  
+Choose the size of the key modulus in the range of 360 to 4096 for your  
+  General Purpose Keys. Choosing a key modulus greater than 512 may take a few minutes.  
+
+How many bits in the modulus [512]: 1024  
+Generating 1024 bit RSA keys, keys will be non-exportable... [OK]  
+
+
+RB(config)#line vty 0 4  
+RB(config-line)#transport input telnet ssh  
+RB(config-line)#login local  
+RB(config-line)#exit  
