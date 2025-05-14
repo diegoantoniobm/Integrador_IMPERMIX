@@ -195,7 +195,7 @@ Esta es la topología a implementar para realizar las conexiones de red del proy
 
 ![Topologia del proyecto](image3.png)
 
-### Configuraciones Básicas de Switch
+## Configuraciones Básicas de Switch
 
 Estas son las configuraciones necesarias para el funcionamiento del switch en la topología:
 
@@ -245,7 +245,7 @@ SB#reload
 
 
 
-### Configuraciones Basicas de Router
+## Configuraciones Basicas de Router
 
 Estas son las configuraciones necesarias para el funcionamiento del router en la topología:
 
@@ -322,3 +322,11 @@ para la pc 1 y 172.16.0.36 y su mascara: 255.255.255.224 para la pc 2
 
 Seguidamente seleccionamos el apartado de protocolo de Internet versión 6(TCP(IPv6), e ingresas la IP 2001:db8:1:b::4 
 y el prefijo de 64 para la pc 1 y 2001:db8:1:b::5 y el prefijo de 64 para la pc 2
+
+### Conexión mediante SSH al router via ipv6
+
+![ping ipv6](image9.png)
+
+![Asignacion ipv6](image10.png)
+
+![verificacion ipv6](image11.png)
